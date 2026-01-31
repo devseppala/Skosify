@@ -742,6 +742,9 @@ def skosify(*sources, **config):
     literalmap = config.literals
     relationmap = config.relations
 
+    sparqlupdatelist = config.sparqlupdates
+    postsparqlupdatelist = config.postsparqlupdates
+
     logging.debug("Skosify starting. $Revision$")
     starttime = time.time()
 
@@ -758,6 +761,8 @@ def skosify(*sources, **config):
     logging.debug("Phase 2: Performing inferences")
     if config.update_query is not None:
         transform_sparql_update(voc, config.update_query)
+    for query in sparqlupdatelist:
+        transform_sparql_update(voc, query)
     if config.construct_query is not None:
         voc = transform_sparql_construct(voc, config.construct_query)
     if config.infer:
@@ -826,6 +831,8 @@ def skosify(*sources, **config):
     logging.debug("Phase 10: Performing post update query")
     if config.post_update_query is not None:
         transform_sparql_update(voc, config.post_update_query)
+    for query in postsparqlupdatelist:
+        transform_sparql_update(voc, query)
 
     processtime = time.time()
 

@@ -30,6 +30,10 @@ DEFAULT_SECTIONS = u"""
 
 [options]
 
+[sparqlupdates]
+
+[postsparqlupdates]
+
 """
 
 
@@ -75,6 +79,10 @@ class Config(object):
         self.types = {}
         self.literals = {}
         self.relations = {}
+
+        # lists
+        self.sparqlupdates=[]
+        self.postsparqlupdates=[]
 
         # namespaces
         self.namespaces = copy(DEFAULT_NAMESPACES)
@@ -123,6 +131,14 @@ class Config(object):
         for key, val in cfgparser.items('relations'):
             self.relations[expand_curielike(self.namespaces, key)] = \
                 expand_mapping_target(self.namespaces, val)
+
+        # parse sparqlupdates from configuration file
+        for key, val in cfgparser.items('sparqlupdates'):
+            self.sparqlupdates.append(val)
+
+        # parse postsparqlupdates from configuration file
+        for key, val in cfgparser.items('postsparqlupdates'):
+            self.postsparqlupdates.append(val)
 
         # parse options from configuration file
         for opt, val in cfgparser.items('options'):
