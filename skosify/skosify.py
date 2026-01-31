@@ -760,11 +760,11 @@ def skosify(*sources, **config):
 
     logging.debug("Phase 2: Performing inferences")
     if config.update_query is not None:
-        transform_sparql_update(voc, config.update_query)
+        transform_sparql_update(voc, config.sparql_prefixes + chr(10) + config.update_query)
     for query in sparqlupdatelist:
-        transform_sparql_update(voc, query)
+        transform_sparql_update(voc, config.sparql_prefixes + chr(10) + query)
     if config.construct_query is not None:
-        voc = transform_sparql_construct(voc, config.construct_query)
+        voc = transform_sparql_construct(voc, config.sparql_prefixes + chr(10) + config.construct_query)
     if config.infer:
         logging.debug("doing RDFS subclass and properties inference")
         infer.rdfs_classes(voc)
@@ -830,9 +830,9 @@ def skosify(*sources, **config):
 
     logging.debug("Phase 10: Performing post update query")
     if config.post_update_query is not None:
-        transform_sparql_update(voc, config.post_update_query)
+        transform_sparql_update(voc, config.sparql_prefixes + chr(10) + config.post_update_query)
     for query in postsparqlupdatelist:
-        transform_sparql_update(voc, query)
+        transform_sparql_update(voc, config.sparql_prefixes + chr(10) + query)
 
     processtime = time.time()
 

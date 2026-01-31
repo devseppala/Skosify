@@ -74,6 +74,7 @@ class Config(object):
         self.update_query = None
         self.construct_query = None
         self.post_update_query = None
+        self.sparql_prefixes = ""
 
         # mappings
         self.types = {}
